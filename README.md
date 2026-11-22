@@ -4,13 +4,11 @@ A right-Sidebar **bookmarks** panel for DeepSeek Harness. Pin one of the assista
 
 ## Screenshots
 
-Both images are from early builds: the icons and the code colouring have changed since, and neither is current.
+The panel, current build: the **书签 / Bookmarks** tab with a pin's time on the right of its head row, the pin rendered as Markdown — heading, numbered steps, a fenced block coloured with the theme's shiki palette, a blockquote — and the card's own controls (**提问 / Ask**, 收起, 复制, 删除) under it:
 
-A reply pinned on the right, rendered as Markdown beside the conversation — heading, numbered steps, a blockquote, a table and a labelled code block, with the card's own controls under it. Taken before fenced code was coloured and before the card grew its **Jump** button:
+![The Bookmarks panel with a pinned excerpt rendered as Markdown](assets/panel.png)
 
-![The panel with a pinned reply rendered as Markdown](assets/panel.png)
-
-The entry points — the two icon actions in the row under a finished reply (each label appears on hover only, laid out like the row's other icon buttons). This one is a user-taken shot of an earlier build: it shows a single arrow icon inside a blue annotation box, while the row now carries a star and an arrow, both drawn in the current style:
+The entry point in a finished reply: the star and the arrow under the assistant's action row. This second image is an **earlier build** — it shows one arrow icon inside a blue annotation box, while the row now carries a star and an arrow in the row's current icon style. Each label appears on hover only, laid out like the row's other icon buttons:
 
 ![The reply action row in an earlier build](assets/action-row.png)
 

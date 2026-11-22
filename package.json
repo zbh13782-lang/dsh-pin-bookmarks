@@ -1,6 +1,6 @@
 {
   "name": "dsh-pin-bookmarks",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Right Sidebar bookmarks: pin a reply there as rendered Markdown, then select a passage and send it back to the chat composer as a quote.",
   "type": "module",
   "license": "MIT",

@@ -24,7 +24,12 @@ window.__ModuleLoader__.load({
     /** Tab kind the panel opens under. */
     const KIND = 'ask-reader'
     /** Implementation id: the key the body registers under and the type's own name. */
-    const TAB_ID = 'dsh-pin-bookmarks'
+    /**
+     * Stable key of the tab type and of its body slot. It keeps the name this
+     * plugin had before the 0.3.0 rename on purpose: a tab the user already has
+     * open stores this id, and changing it leaves that tab with no viewer.
+     */
+    const TAB_ID = 'dsh-ask-reader'
     const STORAGE_PREFIX = 'dsh-pin-bookmarks:v1:'
     /** Where pins lived before the rename; read once, then copied forward. */
     const LEGACY_STORAGE_PREFIX = 'dsh-ask-reader:v1:'
