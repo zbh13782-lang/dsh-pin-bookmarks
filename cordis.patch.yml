@@ -1,5 +1,5 @@
 # Row that loads this bundle. The Client half is loaded by the Web app from
 # `dsh.client` in package.json; the Host half only exists so the row activates.
 - insert:
-    - id: dsh-ask-reader
-      name: dsh-ask-reader
+    - id: dsh-pin-bookmarks
+      name: dsh-pin-bookmarks

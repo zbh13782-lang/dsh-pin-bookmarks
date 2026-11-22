@@ -1,17 +1,17 @@
 {
-  "name": "dsh-ask-reader",
-  "version": "0.2.3",
+  "name": "dsh-pin-bookmarks",
+  "version": "0.3.0",
   "description": "Right Sidebar reading board: pin a reply there as rendered Markdown, then select a passage and send it back to the chat composer as a quote.",
   "type": "module",
   "license": "MIT",
   "author": "zbh13782-lang",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zbh13782-lang/dsh-ask-reader.git"
+    "url": "git+https://github.com/zbh13782-lang/dsh-pin-bookmarks.git"
   },
-  "homepage": "https://github.com/zbh13782-lang/dsh-ask-reader#readme",
+  "homepage": "https://github.com/zbh13782-lang/dsh-pin-bookmarks#readme",
   "bugs": {
-    "url": "https://github.com/zbh13782-lang/dsh-ask-reader/issues"
+    "url": "https://github.com/zbh13782-lang/dsh-pin-bookmarks/issues"
   },
   "keywords": [
     "dsh",

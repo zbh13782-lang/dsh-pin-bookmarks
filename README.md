@@ -1,4 +1,4 @@
-# dsh-ask-reader
+# dsh-pin-bookmarks
 
 A right-Sidebar **reading board** for DeepSeek Harness. Pin one of the assistant's replies into the right column, read it as rendered Markdown beside the conversation, then select the part you do not understand and send it back into the main composer as a quote.
 
@@ -43,21 +43,23 @@ Long answers are easier to work through beside the chat than in it: the board ke
 - The Markdown renderer is the plugin's own and deliberately small: no math, no Mermaid, no raw HTML, no images. Those show as text.
 - Fenced code is coloured with the theme's own shiki palette (`--shiki-token-*`), so a block reads here exactly as it does in the conversation and follows light/dark with the rest of the app. Recognised languages: `js`/`ts`/`tsx`, `python`, `go`, `rust`, `sh`/`bash`, `sql`, `json`, `yaml`. Anything else stays in plain monospace rather than guessing.
 
+> Renamed from `dsh-ask-reader` in 0.3.0. Pins made under the old name are read once and copied to the new storage key, so nothing is lost; the old install address keeps working through GitHub's redirect.
+
 ## Install
 
-From the repository, or from the prebuilt tarball attached to [the latest release](https://github.com/zbh13782-lang/dsh-ask-reader/releases/latest):
+From the repository, or from the prebuilt tarball attached to [the latest release](https://github.com/zbh13782-lang/dsh-pin-bookmarks/releases/latest):
 
 ```sh
-dsh plugin --profile <profile> add github:zbh13782-lang/dsh-ask-reader
+dsh plugin --profile <profile> add github:zbh13782-lang/dsh-pin-bookmarks
 # or
-dsh plugin --profile <profile> add https://github.com/zbh13782-lang/dsh-ask-reader/releases/latest/download/dsh-ask-reader.tgz
+dsh plugin --profile <profile> add https://github.com/zbh13782-lang/dsh-pin-bookmarks/releases/latest/download/dsh-pin-bookmarks.tgz
 ```
 
 Or, in DSH Desktop, **Settings → Plugins → Add plugin** and paste either address. The package declares `dsh.bundle`, ships no dependencies, no build step and no install scripts — a tarball install therefore skips the build-approval prompt.
 
 The same two addresses work unchanged on Windows and Linux: the plugin is a browser bundle, `index.js` is empty, and nothing in it reads a path, a shell or an OS name. The tarball is plain `.tgz` (distil with `tar -xzf` if you want to read it), and `tar` ships with Windows 10 and later.
 
-If your profile shows this plugin as a **`link:` entry pointing into a local directory** — for example `link:/Users/you/dsh-plugins/dsh-ask-reader` — that row came from a directory install on another machine and cannot work here: Plugins reports it as *指向本地目录，本机不存在*. Remove that row and install from one of the two addresses above instead; nothing in the plugin needs to change.
+If your profile shows this plugin as a **`link:` entry pointing into a local directory** — for example `link:/Users/you/dsh-plugins/dsh-pin-bookmarks` — that row came from a directory install on another machine and cannot work here: Plugins reports it as *指向本地目录，本机不存在*. Remove that row and install from one of the two addresses above instead; nothing in the plugin needs to change.
 
 ## Layout
 

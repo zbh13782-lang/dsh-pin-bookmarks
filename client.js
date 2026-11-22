@@ -14,7 +14,7 @@
  * together in the main chat.
  */
 window.__ModuleLoader__.load({
-  id: 'dsh-ask-reader',
+  id: 'dsh-pin-bookmarks',
   factory(require) {
     const React = require('react')
     const h = React.createElement
@@ -24,8 +24,10 @@ window.__ModuleLoader__.load({
     /** Tab kind the panel opens under. */
     const KIND = 'ask-reader'
     /** Implementation id: the key the body registers under and the type's own name. */
-    const TAB_ID = 'dsh-ask-reader'
-    const STORAGE_PREFIX = 'dsh-ask-reader:v1:'
+    const TAB_ID = 'dsh-pin-bookmarks'
+    const STORAGE_PREFIX = 'dsh-pin-bookmarks:v1:'
+    /** Where pins lived before the rename; read once, then copied forward. */
+    const LEGACY_STORAGE_PREFIX = 'dsh-ask-reader:v1:'
     /** Most recent pins kept per Session. */
     const ENTRY_LIMIT = 40
     /** Quote budget toward the composer: a reply is already in the log, a pasted excerpt is not. */
@@ -260,7 +262,7 @@ window.__ModuleLoader__.load({
 
     /** Theme-token stylesheet, rendered as an element so unmounting removes it. */
     function Styles() {
-      return h('style', { 'data-dsh-ask-reader': '' }, CSS)
+      return h('style', { 'data-dsh-pin-bookmarks': '' }, CSS)
     }
 
     /** The pin glyph: an outlined star, filled in once that reply is on the board. */
@@ -775,9 +777,18 @@ window.__ModuleLoader__.load({
       function readStored(sessionId) {
         try {
           const raw = window.localStorage.getItem(keyOf(sessionId))
-          if (!raw) return []
-          const parsed = JSON.parse(raw)
-          return Array.isArray(parsed) ? parsed.map(isEntry).filter(Boolean) : []
+          if (raw) {
+            const parsed = JSON.parse(raw)
+            return Array.isArray(parsed) ? parsed.map(isEntry).filter(Boolean) : []
+          }
+          // Pins made under the plugin's old name: take them once and copy them
+          // to the current key, so a rename never looks like data loss.
+          const legacyRaw = window.localStorage.getItem(LEGACY_STORAGE_PREFIX + String(sessionId))
+          if (!legacyRaw) return []
+          const legacy = JSON.parse(legacyRaw)
+          const rows = Array.isArray(legacy) ? legacy.map(isEntry).filter(Boolean) : []
+          if (rows.length > 0) window.localStorage.setItem(keyOf(sessionId), JSON.stringify(rows))
+          return rows
         } catch (error) {
           return []
         }
@@ -1600,11 +1611,19 @@ window.__ModuleLoader__.load({
     // One native rail button per turn, not per reply. Style its existing tick,
     // never its hit area, handlers or virtual-list position.
     // Profile-wide appearance only. Never store these preferences in a board.
-    const PREF_KEY = 'dsh-ask-reader:rail-settings:v1'
+    const PREF_KEY = 'dsh-pin-bookmarks:rail-settings:v1'
+    /** The preference key from before the rename. */
+    const LEGACY_PREF_KEY = 'dsh-ask-reader:rail-settings:v1'
     const PREF_EVENT = 'ask-reader:rail-settings-changed'
     const DEFAULT_PREFS = { uniformColor: false, color: '#a78bfa', uniformLength: true, width: RAIL_DEFAULT_WIDTH }
     /** The preference JSON as stored, or an empty string when storage refuses to answer. */
-    const prefsRaw = () => { try { return window.localStorage.getItem(PREF_KEY) || '' } catch { return '' } }
+    const prefsRaw = () => {
+      try {
+        const raw = window.localStorage.getItem(PREF_KEY)
+        if (raw) return raw
+        return window.localStorage.getItem(LEGACY_PREF_KEY) || ''
+      } catch { return '' }
+    }
     /** One preference record with every field of a known type, clamped into range. */
     function normalizePrefs(value) {
       const p = value || {}
@@ -1629,7 +1648,7 @@ window.__ModuleLoader__.load({
     }
     /** Subscribe to preference changes here and, through `storage`, in the app's other windows. */
     function subscribePrefs(fn) {
-      const crossWindow = e => { if (e.key === PREF_KEY || e.key === null) fn() }
+      const crossWindow = e => { if (e.key === PREF_KEY || e.key === LEGACY_PREF_KEY || e.key === null) fn() }
       window.addEventListener(PREF_EVENT, fn)
       window.addEventListener('storage', crossWindow)
       return () => { window.removeEventListener(PREF_EVENT, fn); window.removeEventListener('storage', crossWindow) }
@@ -2068,7 +2087,7 @@ window.__ModuleLoader__.load({
     // ------------------------------------------------------------ the plugin ---
 
     return {
-      name: 'dsh-ask-reader',
+      name: 'dsh-pin-bookmarks',
       // Only the service the plugin cannot live without: every registration needs
       // `slots`. The history reader is resolved per lookup and the locale at apply
       // time, so an absent `remote`, `sessions` or locale degrades the rail and
