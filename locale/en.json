@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Reading board",
+    "title": "Bookmarks",
     "description": "Pin one of the assistant's replies into the right column, read it beside the chat, and quote the part you do not understand back into the composer so the follow-up question carries it.",
     "detail": "docs/DETAIL.md"
   }

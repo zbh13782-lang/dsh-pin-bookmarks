@@ -1,5 +1,5 @@
 /**
- * Browser half of the reading board.
+ * Browser half of the bookmarks board.
  *
  * Three registrations, one store:
  * - a right-Sidebar tab type (`ask-reader`) with its body, so a pinned excerpt
@@ -58,7 +58,7 @@ window.__ModuleLoader__.load({
 
     const DICT = {
       zh: {
-        'tab.title': '阅读板',
+        'tab.title': '书签',
         'rail.heading': '收藏横线',
         'rail.intro': '调整聊天右侧的轮次导航，设置对本机所有会话生效。',
         'rail.uniformColor': '统一颜色',
@@ -71,16 +71,16 @@ window.__ModuleLoader__.load({
         'rail.ordinary': '普通横线（最长）',
         'rail.pinned': '收藏横线',
         'rail.failed': '设置未能保存，请检查本地存储。',
-        'guide.title': '阅读板',
+        'guide.title': '书签',
         'guide.description': '把一段回复钉在这里慢慢看，再就其中看不懂的地方提问。',
-        'header.open': '打开阅读板',
-        'save.action': '收藏并展开阅读板',
-        'save.quiet': '收藏到阅读板',
+        'header.open': '打开书签',
+        'save.action': '收藏并展开书签',
+        'save.quiet': '收藏到书签',
         'save.starred': '已收藏 · 再点一次取消收藏',
-        'save.open': '在阅读板中打开',
+        'save.open': '在书签中打开',
         'save.empty': '这一条没有可保存的文字。',
         'empty.title': '还没有内容',
-        'empty.hint': '在助手回复下方点「收藏到阅读板」，或把一段文字粘贴到下面。',
+        'empty.hint': '在助手回复下方点「收藏到书签」，或把一段文字粘贴到下面。',
         'compose.toggle': '粘贴一段文字',
         'compose.placeholder': '把想留着看的文字粘贴到这里……',
         'compose.save': '保存',
@@ -103,8 +103,8 @@ window.__ModuleLoader__.load({
         'note.copied': '已复制到剪贴板。',
         'note.copiedForAsk': '输入框不可用，这段已复制到剪贴板，可以直接粘贴到主聊天。',
         'note.copyFailed': '复制没有成功，请手动选中文字复制。',
-        'note.saved': '已存入阅读板',
-        'note.alreadySaved': '这条回复已经在阅读板里了。',
+        'note.saved': '已存入书签',
+        'note.alreadySaved': '这条回复已经在书签里了。',
         'note.unpinned': '已取消收藏',
         'note.jumping': '正在向上翻找这条消息……',
         'note.jumpMissing': '翻到会话开头也没有找到这条消息。',
@@ -114,7 +114,7 @@ window.__ModuleLoader__.load({
         'unit.entries': '条',
       },
       en: {
-        'tab.title': 'Reading board',
+        'tab.title': 'Bookmarks',
         'rail.heading': 'Pinned turn markers',
         'rail.intro': 'Customize the turn navigator for all conversations on this device.',
         'rail.uniformColor': 'Use one color',
@@ -127,16 +127,16 @@ window.__ModuleLoader__.load({
         'rail.ordinary': 'Regular marker (longest)',
         'rail.pinned': 'Pinned markers',
         'rail.failed': 'Settings could not be saved. Check local storage.',
-        'guide.title': 'Reading board',
+        'guide.title': 'Bookmarks',
         'guide.description': 'Pin a reply here to read it, then ask about the parts that are unclear.',
-        'header.open': 'Open the reading board',
-        'save.action': 'Pin to reading board',
-        'save.quiet': 'Pin to the reading board',
+        'header.open': 'Open bookmarks',
+        'save.action': 'Pin and open bookmarks',
+        'save.quiet': 'Pin to bookmarks',
         'save.starred': 'Pinned · click again to unpin',
-        'save.open': 'Open in the reading board',
+        'save.open': 'Open in bookmarks',
         'save.empty': 'This message has no text to pin.',
         'empty.title': 'Nothing pinned yet',
-        'empty.hint': 'Use “Pin to reading board” under a reply, or paste text below.',
+        'empty.hint': 'Use “Pin to bookmarks” under a reply, or paste text below.',
         'compose.toggle': 'Paste text',
         'compose.placeholder': 'Paste the text you want to keep…',
         'compose.save': 'Save',
@@ -159,8 +159,8 @@ window.__ModuleLoader__.load({
         'note.copied': 'Copied to the clipboard.',
         'note.copiedForAsk': 'Composer unavailable; the text is on the clipboard.',
         'note.copyFailed': 'Copy failed — select the text and copy it by hand.',
-        'note.saved': 'Pinned.',
-        'note.alreadySaved': 'This reply is already on the board.',
+        'note.saved': 'Saved to bookmarks',
+        'note.alreadySaved': 'This reply is already pinned in Bookmarks',
         'note.unpinned': 'Unpinned; the matching rail marker is back to normal.',
         'note.jumping': 'Paging back to find that message…',
         'note.jumpMissing': 'Reached the start of the conversation without finding that message.',
@@ -1701,7 +1701,7 @@ window.__ModuleLoader__.load({
         input.akr-rail-switch:checked::before{background:HighlightText}
       }
     `
-    /** Settings → Reading board: the two appearance switches and a live preview of the rail. */
+    /** Settings → Bookmarks: the two appearance switches and a live preview of the rail. */
     function RailSettings({ t }) {
       const prefs = useRailPrefs()
       const [failed, setFailed] = React.useState(false)
