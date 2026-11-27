@@ -999,9 +999,9 @@ window.__ModuleLoader__.load({
         stop()
         timer.current = setTimeout(() => { setNote(null); timer.current = 0 }, 6000)
       }, [])
-      // Drop the line on demand. The icon's bubble keeps a click's feedback up
-      // for the six-second timeout even after the pointer leaves, so this is
-      // only for a caller that wants the line gone at once.
+      // Drop the line on demand. The icon bubble calls this as soon as the
+      // pointer leaves, so a click's feedback does not outlive the icon. The
+      // panel's own line still runs to the six-second timeout.
       const hide = React.useCallback(() => { stop(); setNote(null) }, [])
       React.useEffect(() => () => { stop() }, [])
       return [note, show, hide]
@@ -1078,12 +1078,10 @@ window.__ModuleLoader__.load({
       const btnRef = React.useRef(null)
       const timer = React.useRef(0)
       const note = props.note
-      // The bubble carries two things: the label the pointer asks for, and a
-      // note a click leaves behind. The label still belongs to the pointer
-      // alone; the note outlives the hover and runs to its own six-second
-      // timeout, so a pin's "saved" feedback stays readable after the mouse
-      // moves on.
-      const visible = hover || note != null
+      // The bubble carries the hover label, or a click's note while the pointer
+      // is still on the icon. Either way it belongs to the pointer: once the
+      // pointer leaves, the bubble goes, note or no note.
+      const visible = hover
 
       /**
        * Anchor the bubble to the button's box in viewport coordinates. It hangs
@@ -1121,8 +1119,8 @@ window.__ModuleLoader__.load({
           const node = btnRef.current
           if (node && typeof node.getBoundingClientRect === 'function') {
             const rect = node.getBoundingClientRect()
-            // A click's note is still up here, so the bubble leaves the screen
-            // with the icon rather than parked at its last measured position.
+            // Off screen the bubble leaves with the icon, click feedback included,
+            // rather than staying parked at its last measured position.
             if (rect.bottom < 0 || rect.top > window.innerHeight) { dismiss(); setAt(null); return }
             // Back in view with the pointer still on the icon: the bubble
             // returns at once, unless the dwell has not run yet anyway.
@@ -1151,16 +1149,19 @@ window.__ModuleLoader__.load({
         if (timer.current) clearTimeout(timer.current)
         timer.current = setTimeout(() => { timer.current = 0; setHover(true) }, 260)
       }
-      /** Take the hover label away; a click's note keeps its own timeout. */
+      /** Take the bubble away, hover label and click feedback together. */
       const dismiss = () => {
         if (timer.current) { clearTimeout(timer.current); timer.current = 0 }
         setHover(false)
+        // The click feedback shares this bubble. Drop it with the pointer,
+        // instead of letting the six-second timeout hold it on screen.
+        if (typeof props.onDismiss === 'function') props.onDismiss()
       }
       const leave = () => { setPointing(false); dismiss() }
 
-      // A click's note wins over the hover label while it lasts, and stays on
-      // screen whether the pointer is on the icon or not.
-      const text = note ? note.text : (hover ? props.label : null)
+      // A click's note wins over the hover label only while the pointer is
+      // still on the icon. Off the icon there is nothing to show.
+      const text = hover ? (note ? note.text : props.label) : null
       const look = note && note.failed
         ? Object.assign({}, BUBBLE_LOOK, { color: 'var(--dsw-alias-state-error-primary)' })
         : BUBBLE_LOOK
@@ -1605,8 +1606,7 @@ window.__ModuleLoader__.load({
         label: t(actionLook(props.variant, saved).label),
         onClick,
         note,
-        // Kept for callers that want the line gone early; leaving the icon no
-        // longer routes here, so a click's note keeps its six-second timeout.
+        // Pointer leaving the icon drops the click feedback at once.
         onDismiss: dismissNote,
       })
     }
